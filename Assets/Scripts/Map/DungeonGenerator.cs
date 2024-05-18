@@ -8,7 +8,9 @@ public class DungeonGenerator : MonoBehaviour
     private int maxRoomSize, minRoomSize;
     private int maxRooms;
     List<Room> rooms = new List<Room>();
+    public int maxEnemies;
 
+    
     public void SetSize(int width, int height)
     {
         this.width = width;
@@ -25,7 +27,10 @@ public class DungeonGenerator : MonoBehaviour
     {
         maxRooms = max;
     }
-
+    public void SetMaxEnemies(int max)
+    {
+        maxEnemies = max;
+    }
     public void Generate()
     {
         rooms.Clear();
@@ -74,10 +79,13 @@ public class DungeonGenerator : MonoBehaviour
             {
                 TunnelBetween(rooms[rooms.Count - 1], room);
             }
-
+            foreach (var item in rooms)
+            {
+                PlaceEnemies(room, maxEnemies);
+            }
             rooms.Add(room);
         }
-        var player = MapManager.Get.CreateActor("Player", rooms[0].Center());
+        var player = GameManager.Get.CreateActor("Player", rooms[0].Center());
     }
 
     private bool TrySetWallTile(Vector3Int pos)
@@ -144,5 +152,44 @@ public class DungeonGenerator : MonoBehaviour
                 }
             }
         }
+    }
+    private void PlaceEnemies(Room room, int maxEnemies)
+
+    {
+
+        // the number of enemies we want 
+
+        int num = Random.Range(0, maxEnemies + 1);
+
+
+
+        for (int counter = 0; counter < num; counter++)
+
+        {
+
+            // The borders of the room are walls, so add and substract by 1 
+
+            int x = Random.Range(room.X + 1, room.X + room.Width - 1);
+
+            int y = Random.Range(room.Y + 1, room.Y + room.Height - 1);
+
+
+
+            // create different enemies 
+
+            if (Random.value < 0.5f)
+
+            {
+                GameManager.Get.CreateActor("worm", new Vector2(x, y));
+            }
+            else
+
+            {
+                GameManager.Get.CreateActor("bat", new Vector2(x, y));
+
+            }
+
+        }
+
     }
 }
