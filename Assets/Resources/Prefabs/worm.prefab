@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4548617106615142667}
   - component: {fileID: 7363547749858366474}
   - component: {fileID: 7838963824045130579}
+  - component: {fileID: 8957959021483643105}
   m_Layer: 0
   m_Name: worm
   m_TagString: Untagged
@@ -100,6 +101,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FieldOfView: []
   FieldOfViewRange: 8
+  maxHitPoints: 8
+  hitPoints: 8
+  defense: 0
+  power: 3
 --- !u!114 &7838963824045130579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,5 +115,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d606b529bbe8365449b6f5b3b78e6e37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 8276185680282233743, guid: e25361596e45a964bab8298e862445a1, type: 3}
+  IsFighting: 0
+--- !u!114 &8957959021483643105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 403782495636151733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af028bd8c61434a4f8119d19adbf4b0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

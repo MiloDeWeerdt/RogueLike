@@ -79,10 +79,9 @@ public class DungeonGenerator : MonoBehaviour
             {
                 TunnelBetween(rooms[rooms.Count - 1], room);
             }
-            foreach (var item in rooms)
-            {
+            
                 PlaceEnemies(room, maxEnemies);
-            }
+            
             rooms.Add(room);
         }
         var player = GameManager.Get.CreateActor("Player", rooms[0].Center());

@@ -14,14 +14,15 @@ public class Enemy : MonoBehaviour
         {
         algorithm = GetComponent<AStar>();
         GameManager.Get.AddEnemy(GetComponent<Actor>());
-        }
+        
+    } 
 
     
 
     // Update is called once per frame
     void Update()
     {
-        RunAI();
+       RunAI();
     }
 
     public void MoveAlongPath(Vector3Int targetPosition)
@@ -66,6 +67,15 @@ public class Enemy : MonoBehaviour
             // TODO: call MoveAlongPath with the gridPosition 
             MoveAlongPath(gridPosition);
         }
+        float distance = Vector3.Distance(transform.position, Target.transform.position);
 
+        if (distance < 1.5f)
+        {
+            Action.Hit(GetComponent<Actor>(), Target);
+        }
+        else
+        {
+            MoveAlongPath(gridPosition);
+        }
     }
 }
