@@ -14,6 +14,7 @@ public class Action : MonoBehaviour
         else
         {
             Hit(actor, target);
+            EndTurn(actor);
         }
     }
     static public void Move(Actor actor, Vector2 direction)
@@ -24,7 +25,7 @@ public class Action : MonoBehaviour
             actor.Move(direction);
             actor.UpdateFieldOfView();
         }
-        EndTurn(actor);
+        
     }
     static public void Hit(Actor actor, Actor target)
     {
@@ -44,7 +45,7 @@ public class Action : MonoBehaviour
             UIManager.Instance.AddMessage(message, actor.GetComponent<Player>() ? Color.white : Color.red);
         }
 
-        EndTurn(actor);
+        
     }
         static private void EndTurn(Actor actor)
     {

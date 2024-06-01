@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     public Actor Target;  
     public bool IsFighting = false;  
     private AStar algorithm;
-
+    private int confused = 0;
 
     private void Start()
         {
@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       RunAI();
+       
     }
 
     public void MoveAlongPath(Vector3Int targetPosition)
@@ -77,5 +77,15 @@ public class Enemy : MonoBehaviour
         {
             MoveAlongPath(gridPosition);
         }
+        if (confused > 0)
+        {
+            Debug.Log($"The {name} is confused and cannot act");
+            confused--;
+            return;
+        }
+    }
+    public void Confuse()
+    {
+        confused = 8;
     }
 }

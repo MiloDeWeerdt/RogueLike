@@ -83,4 +83,18 @@ public class Actor : MonoBehaviour
             MapManager.Get.UpdateFogMap(FieldOfView);
         }
     }
+    public void Heal(int hp)
+    {
+        int actualHeal = Mathf.Min(maxHitPoints - hitPoints, hp);
+
+        hitPoints += actualHeal;
+
+        Debug.Log($"{name} was healed for {actualHeal} hit points.");
+
+        if (GetComponent<Player>())
+        {
+            UIManager.Instance.UpdateHealth(hitPoints, maxHitPoints);
+        }
+    }
+
 }

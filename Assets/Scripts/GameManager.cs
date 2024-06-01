@@ -101,12 +101,26 @@ public class GameManager : MonoBehaviour
         if (Enemies.Contains(enemy))
         {
             Enemies.Remove(enemy);
-            Destroy(enemy.gameObject);
             Debug.Log($"{enemy.name} has been removed.");
         }
         else
         {
             Debug.Log("Enemy not found in the list.");
         }
+    }
+    public List<Actor> GetNearbyEnemies(Vector3 location)
+    {
+        List<Actor> nearbyEnemies = new List<Actor>();
+
+        foreach (Actor enemy in Enemies)
+        {
+            float distance = Vector3.Distance(enemy.transform.position, location);
+            if (distance < 5)
+            {
+                nearbyEnemies.Add(enemy);
+            }
+        }
+
+        return nearbyEnemies;
     }
 }

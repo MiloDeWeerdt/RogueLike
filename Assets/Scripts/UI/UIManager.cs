@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
 
     private Healthbar healthBar;
     private Messages messages;
+    public GameObject inventory;
 
     private void Awake()
     {
@@ -26,6 +27,11 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+    }
+    public static UIManager Get { get => instance; }
+    public InventoryUI InventoryUI
+    {
+        get => Inventory.GetComponent<InventoryUI>();
     }
     // Start is called before the first frame update
     void Start()
