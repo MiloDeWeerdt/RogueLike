@@ -9,8 +9,8 @@ public class DungeonGenerator : MonoBehaviour
     private int maxRooms;
     List<Room> rooms = new List<Room>();
     public int maxEnemies;
+    private int maxItems;
 
-    
     public void SetSize(int width, int height)
     {
         this.width = width;
@@ -30,6 +30,10 @@ public class DungeonGenerator : MonoBehaviour
     public void SetMaxEnemies(int max)
     {
         maxEnemies = max;
+    }
+    public void SetMaxItems(int maxItems)
+    {
+        this.maxItems = maxItems;
     }
     public void Generate()
     {
@@ -85,6 +89,35 @@ public class DungeonGenerator : MonoBehaviour
             rooms.Add(room);
         }
         var player = GameManager.Get.CreateActor("Player", rooms[0].Center());
+    }
+    private void PlaceItems(Room room, int maxItems)
+    {
+        int numItems = Random.Range(0, maxItems + 1);
+
+        for (int i = 0; i < numItems; i++)
+        {
+            int x = Random.Range(room.X + 1, room.X + room.Width - 1);
+            int y = Random.Range(room.Y + 1, room.Y + room.Height - 1);
+
+            GameObject itemPrefab = null;
+
+            // Kies willekeurig welk item te plaatsen
+            float randomValue = Random.value;
+            if (randomValue < 0.33f)
+            {
+                itemPrefab = Resources.Load<GameObject>("Prefabs/HealthPotion");
+            }
+            else if (randomValue < 0.66f)
+            {
+                itemPrefab = Resources.Load<GameObject>("Prefabs/Fireball");
+            }
+            else
+            {
+                itemPrefab = Resources.Load<GameObject>("Prefabs/ScrollOfConfusion");
+            }
+
+            Instantiate(itemPrefab, new Vector3(x, y, 0), Quaternion.identity);
+        }
     }
 
     private bool TrySetWallTile(Vector3Int pos)

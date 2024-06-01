@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public List<Actor> Enemies = new List<Actor>();
     public Actor Player { get; set; }
-    
+    public List<Consumable> Items = new List<Consumable>();
     private void Awake()
     {
         if (instance == null)
@@ -22,6 +22,34 @@ public class GameManager : MonoBehaviour
     public void AddEnemy(Actor enemy)
     {
         Enemies.Add(enemy);
+    }
+    public void AddItem(Consumable item)
+    {
+        Items.Add(item);
+    }
+    public Consumable GetItemAtLocation(Vector3 location)
+    {
+        foreach (var item in Items)
+        {
+            if (item != null && item.transform.position == location)
+            {
+                return item;
+            }
+        }
+        return null;
+    }
+    public void RemoveItem(Consumable item)
+    {
+        if (Items.Contains(item))
+        {
+            Items.Remove(item);
+            Destroy(item.gameObject);
+            Debug.Log($"{item.name} has been removed.");
+        }
+        else
+        {
+            Debug.Log("Item not found in the list.");
+        }
     }
     public static GameManager Get { get => instance; }
 
