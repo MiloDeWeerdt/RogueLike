@@ -80,13 +80,13 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
 
             if (item == null)
             {
-                Debug.Log("Er is geen item om op te rapen.");
+                UIManager.Instance.AddMessage("Er is geen item om op te rapen.", Color.yellow);
                 return;
             }
 
             if (inventory.IsFull())
             {
-                Debug.Log("Je inventaris is vol. Je kunt dit item niet oppakken.");
+                UIManager.Instance.AddMessage("Je inventaris is vol. Je kunt dit item niet oppakken.", Color.red);
                 return;
             }
             inventory.AddItem(item);
@@ -187,12 +187,32 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
             usingItem = false;
         }
     }
-            private void Move()
+    private void Move()
     {
         Vector2 direction = controls.Player.Movement.ReadValue<Vector2>();
         Vector2 roundedDirection = new Vector2(Mathf.Round(direction.x), Mathf.Round(direction.y));
         Debug.Log("roundedDirection");
         Action.MoveOrHit(GetComponent<Actor>(), roundedDirection);
         Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -5);
+    }
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Vector3 playerPosition = transform.position;
+            Ladder ladder = GameManager.Get.GetLadderAtLocation(playerPosition);
+
+            if (ladder != null)
+            {
+                if (ladder.Up)
+                {
+                    MapManager.Get.MoveUp();
+                }
+                else
+                {
+                    MapManager.Get.MoveDown();
+                }
+            }
+        }
     }
 }

@@ -3,6 +3,8 @@
         <ui:VisualElement style="flex-grow: 1; background-color: rgba(255, 0, 0, 0); -unity-background-image-tint-color: rgb(56, 56, 56);">
             <ui:VisualElement name="Healthbar" style="flex-grow: 1; background-color: rgba(0, 255, 25, 0); position: absolute; left: 0; top: 0; bottom: 0; width: 50%;" />
             <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="HealthLabel" style="-unity-font: resource(&apos;knight-warrior-font/KnightWarrior-w16n8&apos;);" />
+            <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LevelLabel" />
+            <ui:Label tabindex="-1" text="Label" parse-escape-sequences="true" display-tooltip-when-elided="true" name="XPLabel" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

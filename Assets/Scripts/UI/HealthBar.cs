@@ -10,6 +10,8 @@ public class Healthbar : MonoBehaviour
     private VisualElement healthBar;
 
     private Label healthLabel;
+    private Label levelLabel;
+    private Label xpLabel;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +19,8 @@ public class Healthbar : MonoBehaviour
         root = uiDocument.rootVisualElement;
         healthBar = root.Q<VisualElement>("Healthbar");
         healthLabel = root.Q<Label>("HealthLabel");
+        levelLabel = root.Q<Label>("LevelLabel");
+        xpLabel = root.Q<Label>("XPLabel");
         if (healthBar == null)
         {
             Debug.LogError("HealthBar element is not found in the UXML!");
@@ -24,6 +28,14 @@ public class Healthbar : MonoBehaviour
         if (healthLabel == null)
         {
             Debug.LogError("HealthLabel element is not found in the UXML!");
+        }
+        if (levelLabel == null)
+        {
+            Debug.LogError("LevelLabel element is not found in the UXML!");
+        }
+        if (xpLabel == null)
+        {
+            Debug.LogError("XPLabel element is not found in the UXML!");
         }
         SetValues(30, 30);
     }
@@ -39,5 +51,14 @@ public class Healthbar : MonoBehaviour
     void Update()
     {
         
+    }
+    public void SetLevel(int level)
+    {
+        levelLabel.text = "Level: " + level;
+    }
+
+    public void SetXP(int xp)
+    {
+        xpLabel.text = "XP: " + xp;
     }
 }

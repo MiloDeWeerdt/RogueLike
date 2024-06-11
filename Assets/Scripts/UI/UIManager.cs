@@ -10,11 +10,12 @@ public class UIManager : MonoBehaviour
     [Header("Documents")]
     public GameObject healthBarObject;
     public GameObject messagesObject;
+    public GameObject floorInfoObject;
 
     private Healthbar healthBar;
     private Messages messages;
     public GameObject inventory;
-
+    public FloorInfo floorInfo;
     private void Awake()
     {
         if (Instance == null)
@@ -45,6 +46,10 @@ public class UIManager : MonoBehaviour
         {
             messages = messagesObject.GetComponent<Messages>();
         }
+        if (floorInfoObject != null)
+        {
+            floorInfo = floorInfoObject.GetComponent<FloorInfo>(); // Voeg dit toe
+        }
     }
 
     // Update is called once per frame
@@ -59,13 +64,42 @@ public class UIManager : MonoBehaviour
             healthBar.SetValues(current, max);
         }
     }
+    public void UpdateLevel(int level)
+    {
+        if (healthBar != null)
+        {
+            healthBar.SetLevel(level);
+        }
+    }
 
+    public void UpdateXP(int xp)
+    {
+        if (healthBar != null)
+        {
+            healthBar.SetXP(xp);
+        }
+    }
     // Voeg een bericht toe aan het berichten systeem
     public void AddMessage(string message, Color color)
     {
         if (messages != null)
         {
             messages.AddMessage(message, color);
+        }
+    }
+    public void UpdateFloor(int floor)
+    {
+        if (floorInfo != null)
+        {
+            floorInfo.UpdateFloor(floor);
+        }
+    }
+
+    public void UpdateEnemies(int enemyCount)
+    {
+        if (floorInfo != null)
+        {
+            floorInfo.UpdateEnemies(enemyCount);
         }
     }
 }

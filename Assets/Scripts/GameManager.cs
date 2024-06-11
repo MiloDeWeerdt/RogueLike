@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public List<Actor> Enemies = new List<Actor>();
     public Actor Player { get; set; }
     public List<Consumable> Items = new List<Consumable>();
+    private List<Tombstone> tombstones = new List<Tombstone>();
     private void Awake()
     {
         if (instance == null)
@@ -43,7 +44,6 @@ public class GameManager : MonoBehaviour
         if (Items.Contains(item))
         {
             Items.Remove(item);
-            Destroy(item.gameObject);
             Debug.Log($"{item.name} has been removed.");
         }
         else
@@ -123,4 +123,98 @@ public class GameManager : MonoBehaviour
 
         return nearbyEnemies;
     }
+    public void AddLadder(Ladder ladder)
+    {
+        ladders.Add(ladder);
+    }
+
+    public Ladder GetLadderAtLocation(Vector3 location)
+    {
+        foreach (Ladder ladder in ladders)
+        {
+            if (ladder.transform.position == location)
+            {
+                return ladder;
+            }
+        }
+        return null;
+    }
+
+    public void AddTombStone(TombStone stone)
+    {
+        tombstones.Add(stone);
+    }
+    public void ClearFloor()
+    {
+        foreach (var enemy in enemies)
+        {
+            Destroy(enemy.gameObject);
+        }
+        enemies.Clear();
+
+        foreach (var item in items)
+        {
+            Destroy(item.gameObject);
+        }
+        items.Clear();
+
+        foreach (var ladder in ladders)
+        {
+            Destroy(ladder.gameObject);
+        }
+        ladders.Clear();
+
+        foreach (var stone in tombstones)
+        {
+            Destroy(stone.gameObject);
+        }
+        tombstones.Clear();
+    }
+    public void SavePlayerData()
+    {
+        if (Player != null)
+        {
+            var player = Player.GetComponent<Player>();
+            PlayerPrefs.SetInt("MaxHitPoints", player.MaxHitPoints);
+            PlayerPrefs.SetInt("HitPoints", player.HitPoints);
+            PlayerPrefs.SetInt("Defense", player.Defense);
+            PlayerPrefs.SetInt("Power", player.Power);
+            PlayerPrefs.SetInt("Level", player.Level);
+            PlayerPrefs.SetInt("XP", player.XP);
+            PlayerPrefs.SetInt("XpToNextLevel", player.XpToNextLevel);
+            PlayerPrefs.Save();
+        }
+    }
+
+    public void LoadPlayerData()
+    {
+        if (Player != null)
+        {
+            var player = Player.GetComponent<Player>();
+            player.MaxHitPoints = PlayerPrefs.GetInt("MaxHitPoints", 100); 
+            player.HitPoints = PlayerPrefs.GetInt("HitPoints", 100);
+            player.Defense = PlayerPrefs.GetInt("Defense", 10);
+            player.Power = PlayerPrefs.GetInt("Power", 10);
+            player.Level = PlayerPrefs.GetInt("Level", 1);
+            player.XP = PlayerPrefs.GetInt("XP", 0);
+            player.XpToNextLevel = PlayerPrefs.GetInt("XpToNextLevel", 100);
+        }
+    }
+
+    public void DeletePlayerSave()
+    {
+        PlayerPrefs.DeleteKey("MaxHitPoints");
+        PlayerPrefs.DeleteKey("HitPoints");
+        PlayerPrefs.DeleteKey("Defense");
+        PlayerPrefs.DeleteKey("Power");
+        PlayerPrefs.DeleteKey("Level");
+        PlayerPrefs.DeleteKey("XP");
+        PlayerPrefs.DeleteKey("XpToNextLevel");
+    }
+
+    public void PlayerDied()
+    {
+        DeletePlayerSave();
+    }
+
 }

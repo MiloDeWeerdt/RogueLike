@@ -33,6 +33,14 @@ public class NewBehaviourScript : MonoBehaviour
     }
     public void DropItem(Consumable item)
     {
-        Items.Remove(item);
+        if (Items.Contains(item))
+        {
+            Items.Remove(item);
+            Debug.Log($"{item.name} has been dropped from the inventory.");
+        }
+        else
+        {
+            Debug.Log("Item not found in the inventory.");
+        }
     }
 }

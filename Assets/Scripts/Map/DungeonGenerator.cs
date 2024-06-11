@@ -10,7 +10,8 @@ public class DungeonGenerator : MonoBehaviour
     List<Room> rooms = new List<Room>();
     public int maxEnemies;
     private int maxItems;
-
+    private int currentFloor = 0;
+    private List<string> enemyNames = new List<string>() { "ant", "bat", "cat", "chicken", "devil", "dog", "dwarf", "hog", "under,worm"; }
     public void SetSize(int width, int height)
     {
         this.width = width;
@@ -34,6 +35,10 @@ public class DungeonGenerator : MonoBehaviour
     public void SetMaxItems(int maxItems)
     {
         this.maxItems = maxItems;
+    }
+    public void SetCurrentFloor(int floor)
+    {
+        currentFloor = floor;
     }
     public void Generate()
     {
@@ -85,10 +90,20 @@ public class DungeonGenerator : MonoBehaviour
             }
             
                 PlaceEnemies(room, maxEnemies);
-            
+            PlaceItems(room, maxItems);
             rooms.Add(room);
         }
         var player = GameManager.Get.CreateActor("Player", rooms[0].Center());
+        if (currentFloor > 0)
+        {
+            PlaceLadderDown(ladderPos);
+        }
+        if (currentFloor > 0)
+        {
+            var firstRoom = rooms[0];
+            Vector2Int ladderUpPos = new Vector2Int(firstRoom.Center().x, firstRoom.Center().y);
+            PlaceLadderUp(ladderUpPos);
+        }
     }
     private void PlaceItems(Room room, int maxItems)
     {
@@ -209,19 +224,24 @@ public class DungeonGenerator : MonoBehaviour
 
             // create different enemies 
 
-            if (Random.value < 0.5f)
+            int maxIndex = Mathf.Clamp(currentFloor, 0, enemyNames.Count - 1);
+            int enemyIndex = Random.Range(0, maxIndex + 1);
 
-            {
-                GameManager.Get.CreateActor("worm", new Vector2(x, y));
-            }
-            else
-
-            {
-                GameManager.Get.CreateActor("bat", new Vector2(x, y));
-
-            }
+            string enemyName = enemyNames[enemyIndex];
+            GameManager.Get.CreateActor(enemyName, new Vector2(x, y));
 
         }
 
+    }
+    private void PlaceLadderDown(Vector2Int position)
+    {
+        GameObject ladderPrefab = Resources.Load<GameObject>("Prefabs/LadderDown");
+        Instantiate(ladderPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
+    }
+
+    private void PlaceLadderUp(Vector2Int position)
+    {
+        GameObject ladderPrefab = Resources.Load<GameObject>("Prefabs/LadderUp");
+        Instantiate(ladderPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
     }
 }
